@@ -8,15 +8,12 @@
 
  
  
- **Parâmetros ARIMA (p, d, q):**
-    - p = ordem da autorregressão.
-    - d = grau de diferenciação.
-    - q = ordem da média móvel.(Combinação linear de erros passados)
+
 
 
 ### Série temporal estudada
 1. Série temporal
-![serie_temporal_estudada]
+![serie_temporal_estudada](serie_temporal_estudada.png)
 
 2. Transformação raíz cubica sobre a série
 2.1 Série transformada
