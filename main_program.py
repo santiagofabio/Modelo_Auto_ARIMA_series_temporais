@@ -1,4 +1,5 @@
 from ctypes.wintypes import PINT
+from django.forms import modelform_factory
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,8 +9,13 @@ from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 from testa_hipotese_shapiro_wilk import testa_hipotese_shapiro_wilk
-
+from avaliacao_residuo import avaliacao_residuo
+from visualizacao_previsao_auto_arima import visualizacao_previsao_auto_arima
 from scipy import stats
+from modelo_moving_avarage import  modelo_moving_avarage
+from modelo_arma import  modelo_arma
+from modelo_preditivo_autoregressivo import modelo_preditivo_autoregressivo
+from modelo_preditivo_arima import modelo_preditivo_arima
 
 from matplotlib.pylab import rcParams
 rcParams['figure.figsize'] =[15,6]
@@ -28,9 +34,10 @@ indice = pd.date_range('1985', periods=len(chuva4), freq='M')
 
 #criação da serie
 serie = pd.Series(chuva4, index=indice )
-serie.plot()
+serie.plot(label ='Série real')
 plt.title("Serie Pluviometrica ")
 plt.xlabel('Anos')
+plt.legend(loc ='best')
 plt.savefig('serie_temporal_estudada.png', dpi =300, format ='png')
 plt.show()
 
@@ -40,72 +47,47 @@ print(serie3)
 serie3.plot(label ='Série Raiz Cúbica')
 plt.title("Transformação raiz cúbica")
 plt.xlabel('Anos')
+plt.legend(loc ='best')
 plt.savefig('serie_raiz_cubica.png', dpi =300, format ='png')
 plt.show()
 
-
+""" Modelo Auto ARIMA
 modelo_auto = auto_arima(serie3, trace=True, stepwise=False, seasonal=True, max_p=10,max_q=10, max_P=4, max_Q=4,
                          start_p=0,start_q=0,start_P=0,start_Q=0,m=12)
 print(modelo_auto.aic())
 
 resultado_auto =modelo_auto.fit(serie3)
 
-print(resultado_auto.summary())
+# Open a file and use dump()
+with open('resultado_auto.pkl', 'wb') as arquivo:
+    # A new file will be created
+    pickle.dump(resultado_auto,arquivo)
 
+print(resultado_auto.summary())
 residuos_auto = resultado_auto.resid
 
-plt.plot(residuos_auto()) 
-plt.savefig('residuo_autoarima.png', dpi =300, format ='png')
-plt.show()
+#Estudo dos residuos
+avaliacao_residuo(residuos_auto,alpha)
 
-stats.probplot( residuos_auto(), dist ='norm' , plot =plt)
-plt.title("Normal QQ plot -Residuo_AutoARIMA")
-plt.savefig('normal_qq_residuo_autoarima.png', dpi =300, format ='png')
-plt.show()
+periodo =12
+visualizacao_previsao_auto_arima(serie,serie3,residuos_auto, resultado_auto, periodo)
 
-#Teste de Shapiro-Wilk 
-statistic,value_p =stats.shapiro(residuos_auto())
-print('Métricas  Shapiro-Wilk:\n')
-print('Estatistica do teste: {:.6f} '.format(statistic))
-print('p-valor: {:.6f} '.format(value_p))
-testa_hipotese_shapiro_wilk(value_p, alpha)
-
-import seaborn as sns
-sns.displot(residuos_auto())
-plt.show()
-
-plot_acf(residuos_auto(), lags= 30)
-plt.title("Diagrama Autocorrelação Residuo_AutoARIMA")
-plt.xlabel('Nº Lags')
-plt.ylabel('Autocorrelação')
-plt.savefig('diagrama_acf_residuo_autoarima.png', dpi =300, format ='png')
-plt.show()
-
-plot_pacf(residuos_auto(), lags= 30)
-plt.title("Diagrama Autocorrelação Parcial Residuo_AutoARIMA")
-plt.xlabel('Nº Lags')
-plt.ylabel('Autocorrelação parcial ')
-plt.savefig('diagrama_pacf_residuo_autoarima.png', dpi =300, format ='png')
-plt.show()
+#--------Modelo Auto Regressivo
+modelo_preditivo_autoregressivo(serie3,serie)
 
 
-plt.plot(serie3, color ='blue', label='Série real')
-plt.plot(serie3-residuos_auto(),color ='green', label='Residuo_AutoARIMA')
-plt.legend(loc ='best')
-plt.title('Comparativo Série e Residuo_AutoARIMA')
-plt.xlabel('Anos')
-plt.savefig('serie_e_residuo.png', dpi =300, format ='png')
-plt.show()
+#-----Modelo  moving_avarage
+modelo_moving_avarage(serie3, serie)
 
-previsao_auto =resultado_auto.predict(n_periods=12)
 
-previsao_auto_escala = (previsao_auto)**3
-pd.concat([serie,previsao_auto_escala], names=['Series real', 'Previsão']).plot()
-plt.legend(loc ='best')
-plt.title('Cenário preditivo')
-plt.xlabel('Anos')
-plt.ylabel('Indice Pluviometrico mm')
-plt.savefig('cenario_preditivo.png', dpi =300, format ='png')
-plt.show()
+#---------Modelo ARMA---------
+modelo_arma(serie3,serie)
+
+#--------Modelo Auto Regressivo
+modelo_preditivo_autoregressivo(serie3,serie)
+
+#--------Modelo ARIMA
+modelo_preditivo_arima(serie3,serie)
+"""
 
 
