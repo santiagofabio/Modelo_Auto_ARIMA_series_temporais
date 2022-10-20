@@ -12,9 +12,9 @@
 
 
 
-### Série temporal estudada
+## Estudo série pluviométrica 
+
 1. Série temporal estudada
-2. Série temporal
 ![serie_temporal_estudada](serie_temporal_estudada.png)
 
 3. Transformação raíz cubica sobre a série
@@ -23,27 +23,26 @@
 ![serie_raiz_cubica](serie_raiz_cubica.png )
 
 4. Aplicação Modelo AUTO ARIMA
+     
+      3.1 Estudo dos resíduos
+     ![residuos_modelo_ar](residuo_autoarima.png) 
+     
+      3.2 Quantile-Quantile Plot-Rediduo -Modelo AR
+     ![Quantile-Quantile Plot-Rediduo Série raíz cúbica](normal_qq_residuo_autoarima.png) 
 
-   4.1 Estudo dos resíduos
-   ![residuos_modelo_ar](residuo_autoarima.png) 
-   4.2 Quantile-Quantile Plot-Rediduo -Modelo AR
-   ![Quantile-Quantile Plot-Rediduo Série raíz cúbica](normal_qq_residuo_autoarima.png) 
+      3.3 Autocorrelation Function-Resíduos -Modelo AR.
+       ![nomral_qq_plt_serie_raiz_cubica](diagrama_acf_residuo_autoarima.png)
 
-   4.3 Autocorrelation Function-Resíduos -Modelo AR.
-    ![nomral_qq_plt_serie_raiz_cubica](diagrama_acf_residuo_autoarima.png)
+      3.4. Partial Autocorrelation Function -Resíduos- -Modelo AR.
+       ![Parcial autocorreção residuos](diagrama_pacf_residuo_autoarima.png)
 
-    4.4. Partial Autocorrelation Function -Resíduos- -Modelo AR.
-    ![Parcial autocorreção residuos](diagrama_pacf_residuo_autoarima.png)
+4. Resultados
 
-5. Resultados
+     4.1 Série e resíduos
+     ![seire_e_residuos](serie_e_residuo.png)
 
-   5.1 Série e resíduos
-   ![seire_e_residuos](serie_e_residuo.png)
-
-
-   5.2 Previsão.
-   ![previsao_final](cenario_preditivo.png)
-
+      4.2 Previsão.
+      ![previsao_final](cenario_preditivo.png)
 
 ## **Análise compartiva de modelos.**
 Está sessão tem como objetivorelizar uma análise comparativa dos modelos Autoregressivos, Moving Average,ARMA, ARIMA e Auto_ARIMA,  através das métricas erros.
