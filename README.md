@@ -1,5 +1,6 @@
+## **Modelo da séries temporais**
+##  *Auto_Arima*
 
-#Modelo da séries temporais -Auto_Arima
  **Objetivo*** Automatically discover the optimal order for an ARIMA model.  The auto-ARIMA process seeks to identify the most optimal parameters for an ARIMA model, settling on a single fitted ARIMA model. This process is based on the commonly-used R function, **forecast::auto.arima**
 
  ## Modelo Uitlizado
@@ -48,10 +49,16 @@
 Está sessão tem como objetivorelizar uma análise comparativa dos modelos Autoregressivos, Moving Average,ARMA, ARIMA e Auto_ARIMA,  através das métricas erros.
 
 * Previsão Modelo Autoregressivo
-![previsao_final_autoregressivo](previsao_autoregressivo.png)
+  
+  ![previsao_final_autoregressivo](previsao_autoregressivo.png)
+
 * Previsão Modelo Moving Average
-![previsao_final_moving_average](previsao_moving_avarage.png)
+ 
+  ![previsao_final_moving_average](previsao_moving_avarage.png)
 * Previsão Modelo ARMA
-![previsao_final_arma](previsao_arma.png)
+ 
+  ![previsao_final_arma](previsao_arma.png)
+
 * Previsão Modelo ARIMA
-![previsao_final_arima](previsao_arima.png)
+   
+    ![previsao_final_arima](previsao_arima.png)
