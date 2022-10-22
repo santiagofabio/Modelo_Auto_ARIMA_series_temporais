@@ -11,7 +11,7 @@ def visualizacao_previsao_auto_arima(serie,serie3,residuos_auto,resultado_auto, 
      plt.savefig('serie_e_residuo.png', dpi =300, format ='png')
      plt.show()
      previsao_auto =resultado_auto.predict(n_periods= periodo)
-    
+     
      previsao_auto_escala = pd.DataFrame((previsao_auto)**3, columns= ['Previsao_AUTO_ARIMA'])
      pd.concat([serie,previsao_auto_escala], names=['Series real', 'Previsao_AUTO_ARIMA']).plot()
      plt.legend(loc ='best')
@@ -25,6 +25,6 @@ def visualizacao_previsao_auto_arima(serie,serie3,residuos_auto,resultado_auto, 
      with open('previsao_auto_arima.pkl', 'wb') as arquivo:
          # A new file will be created
           pickle.dump(previsao_auto_escala,arquivo)
-     return(0)
+     return(previsao_auto_escala)
 
 

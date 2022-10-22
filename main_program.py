@@ -18,6 +18,7 @@ from modelo_preditivo_autoregressivo import modelo_preditivo_autoregressivo
 from modelo_preditivo_arima import modelo_preditivo_arima
 import pickle
 from matplotlib.pylab import rcParams
+from metricas_previsoes import metricas_previsoes
 rcParams['figure.figsize'] =[15,6]
 
 alpha =0.05
@@ -73,86 +74,44 @@ avaliacao_residuo(residuos_auto,alpha)
 periodo =12
 visualizacao_previsao_auto_arima(serie,serie3,residuos_auto, resultado_auto, periodo)
 
-#--------Modelo Auto Regressivo
-modelo_preditivo_autoregressivo(serie3,serie)
 
-
-#-----Modelo  moving_avarage
-modelo_moving_avarage(serie3, serie)
-
-#---------Modelo ARMA---------
-modelo_arma(serie3,serie)
-
-#--------Modelo ARIMA
-modelo_preditivo_arima(serie3,serie)
+#-------Aplica os modelos preditivos------------------
+prev_autoregressivo = modelo_preditivo_autoregressivo(serie3,serie)
+prev_arima=  modelo_preditivo_arima(serie3,serie)
+prev_arma = modelo_arma(serie3,serie)
+prev_moving_average= modelo_moving_avarage(serie3, serie)
+#-----------------------------------------------------
 """
+# ----------------------Leitura dos arquivos-----------
 
-
-
-
-
-
-
-# -------------------------Leitura das previsões
-
+#---------------------AUTO-ARIMA------------------------
 with open("previsao_auto_arima.pkl", "rb") as arquivo:
-    prev_auto_arima =pickle.load(arquivo)
-    
-with open("previsao_modelo_ar_escala.pkl", "rb") as arquivo:
-    prev_autoregressivo =pickle.load(arquivo)
+      prev_auto_arima =pickle.load(arquivo)
 
-with open("previsao_modelo_arima_escala.pkl", "rb") as arquivo:
-    prev_arima =pickle.load(arquivo)
-    
-with open("previsao_modelo_arma_escala.pkl", "rb") as arquivo:
-    prev_arma =pickle.load(arquivo)
+pd.DataFrame.reset_index(prev_auto_arima, drop =True, inplace =True)
 
-with open("previsao_modelo_moving_average.pkl", "rb") as arquivo:
-    prev_moving_average =pickle.load(arquivo)
-
-#----------------------------------------------------
+#---------------------AUTOREGRESSIVO---------------------
+with open("previsao_modelo_ar_escala.pkl", "rb") as arquivo_arma:
+    prev_autoregressivo =pickle.load(arquivo_arma)
 
 
+#--------------------ARIMA--------------------------------
+with open("previsao_modelo_arima_escala.pkl", "rb") as arquivo_arima:
+    prev_arima =pickle.load(arquivo_arima)
+
+#---------------------ARMA--------------------------------
+with open("previsao_modelo_arma_escala.pkl", "rb") as arquivo_arma:
+      prev_arma =pickle.load(arquivo_arma)
+
+#--------------------MOVING AVERAGE-------------------------
+with open("previsao_modelo_moving_average.pkl", "rb") as arquivo_ma:
+    prev_moving_average =pickle.load(arquivo_ma)
+
+#------------------FIM Leitura de  ARQUIVOS------------------
 
 
-#Lista com os valores reais
+#-------------------DADOS DE VALIDAÇAO----------------------
 lista =[373.3,174.1,137.8,55.7]
-
 valores_reais =pd.DataFrame(lista, columns =['Valores reais'])
-print(valores_reais)
-
-# Autoarima 
-prev_auto_arima_validacao = prev_auto_arima.iloc[0:4]
-pd.DataFrame.reset_index(prev_auto_arima_validacao, drop =True, inplace =True)
-print(prev_auto_arima_validacao)
-
-
-
-
-#Autoregressivo
-prev_autoregressivo_validacao =prev_autoregressivo.iloc[1:5]
-pd.DataFrame.reset_index(prev_autoregressivo_validacao, drop =True, inplace =True)
-print(prev_autoregressivo_validacao)
-
-#Arima
-prev_arima_validacao =  prev_arima.iloc[1:5]
-pd.DataFrame.reset_index(prev_arima_validacao, drop =True, inplace =True)
-print(prev_arima_validacao)
-
-#Arma 
-prev_arma_validacao = prev_arma.iloc[1:5]
-pd.DataFrame.reset_index(prev_arma_validacao, drop =True, inplace =True)
-print(prev_arma_validacao)
-
-#Moving Average
-prev_moving_average = prev_moving_average.iloc[1:5]
-pd.DataFrame.reset_index(prev_moving_average, drop =True, inplace =True)
-print(prev_moving_average)
-
-desempenho =pd.concat([valores_reais,prev_auto_arima_validacao,prev_moving_average, prev_arma_validacao,prev_arima_validacao], axis =1)
- 
-#desempenho.columns =['Valores_reais','Previsao_AUTO','Previsao_MA','Previsao_ARMA','Previsao_ARIMA'] 
-
-print(desempenho.columns)
-
-#from sklearn.metrics import mean_absolute_error,mean_squared_error
+#-------------------------------------------------------------
+metricas_previsoes(valores_reais,prev_auto_arima,prev_autoregressivo,prev_arma,prev_moving_average,prev_arima)

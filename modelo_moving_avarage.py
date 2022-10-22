@@ -26,8 +26,17 @@ def  modelo_moving_avarage(serie3,serie):
       plt.legend(loc ='best')
       plt.savefig('comparativo_serie_residuo_moving_avarage_previsao_.png', format ='png', dpi=300)
       plt.show()
- 
-      previsao_modelo_ma_escala= pd.DataFrame(previsao_modelo_ma**3,columns=['Previsao_MA'] )
+       
+      previsao_modelo_ma_escala = previsao_modelo_ma**3
+      
+      
+      lista =[]
+      for numero  in previsao_modelo_ma_escala :
+             lista.append(numero)   
+      
+      prev_escala = pd.DataFrame( lista, columns=['Previsão_Moving_Average'])
+   
+      
       plt.plot(serie, color = 'blue', label ='Serie real' )
       plt.plot(previsao_modelo_ma_escala, color ='orange', marker ="^", label ='Previsao Modelo-moving_avarage')
       plt.xlabel('Anos')
@@ -40,7 +49,7 @@ def  modelo_moving_avarage(serie3,serie):
       # Open a file and use dump()
       with open('previsao_modelo_moving_average.pkl', 'wb') as arquivo:
     #      A new file will be created
-            pickle.dump(previsao_modelo_ma_escala,arquivo)
+            pickle.dump(prev_escala,arquivo)
             
       return(0)
 

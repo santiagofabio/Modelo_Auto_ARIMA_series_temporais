@@ -19,6 +19,7 @@ def  modelo_arma(serie3,serie):
       #Previsão modelo moving_avarage
       resultado_arma.fittedvalues
       previsao_modelo_arma =resultado_arma.predict(start =431, end =443)
+      
       plt.plot(serie3, color = 'blue', label ='Serie real' )
       plt.plot(previsao_modelo_arma, color ='orange', marker ="^", label = 'Previsão')
       plt.plot(serie3-residuos_modelo_arma, color= 'green', label ='Residuos- arma')
@@ -29,7 +30,19 @@ def  modelo_arma(serie3,serie):
       plt.show()
  
       
-      previsao_modelo_arma_escala = pd.DataFrame(previsao_modelo_arma**3, columns=['Previsao_ARMA'])
+      
+      previsao_modelo_arma_escala = previsao_modelo_arma**3
+      lista =[]
+      for numero  in previsao_modelo_arma_escala:
+             lista.append(numero)   
+      
+      prev_escala = pd.DataFrame(   lista, columns=['Previsão_Arma'])
+      
+     
+      
+      
+      
+      
       plt.plot(serie, color = 'blue', label ='Serie real' )
       plt.plot(previsao_modelo_arma_escala, color ='orange', marker ="^", label ='Previsao Modelo ARMA')
       plt.xlabel('Anos')
@@ -40,7 +53,7 @@ def  modelo_arma(serie3,serie):
       
       with open('previsao_modelo_arma_escala.pkl', 'wb') as arquivo:
     #      A new file will be created
-           pickle.dump(previsao_modelo_arma_escala,arquivo)
+           pickle.dump(prev_escala,arquivo)
       
       return(0)
 

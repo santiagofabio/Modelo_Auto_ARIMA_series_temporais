@@ -61,3 +61,37 @@ Está sessão tem como objetivorelizar uma análise comparativa dos modelos Auto
 * Previsão Modelo ARIMA
    
     ![previsao_final_arima](previsao_arima.png)
+
+### Validação/Métricas
+
+### _Mean abslout error_
+Modelo | Mean abslout error
+-----------|---------------
+Auto arima |   53.2494
+Arima  |98.1856
+Moving Average|  109.5696
+Arma | 68.0473
+Auto regressivo| 72.0368
+
+
+### _Mean squared error_
+Método |Mean squared error
+-----------|--------------
+Auto arima|  3327.0952
+Arima | 14587.1759
+Moving average|  18852.7186
+Arma|  7244.2779
+Auto regressivo|  8271.8396
+
+
+### _Mean sqrt error_
+
+Método|Mean sqrt error
+-------|-----------------
+Auto arima|  57.6810
+Arima| 120.7774
+Moving average|137.3052
+Arma| 85.1133
+Auto regressivo| 90.9497
+
+
